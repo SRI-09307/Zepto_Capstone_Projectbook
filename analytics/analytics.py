@@ -1,8 +1,20 @@
 import pandas as pd
 
 # Load the final processed book data
-file_path = "data_pipeline/books_data_final.csv"
+file_path = "../books_data_cleaned.csv"
 df = pd.read_csv(file_path)
+df["price"] = pd.to_numeric(df["price"].astype(str).str.extract(r"(\d+(?:\.\d+)?)")[0], errors="coerce")
+
+rating_map = {
+    "One": 1,
+    "Two": 2,
+    "Three": 3,
+    "Four": 4,
+    "Five": 5
+}
+
+df["star_rating"] = df["star_rating"].map(rating_map)
+
 
 print("\n===== BOOK ANALYTICS =====")
 
